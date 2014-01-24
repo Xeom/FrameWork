@@ -1,5 +1,4 @@
 ##
-print(dir())
 CreateScreen(600, 600)
 Cat = Sprite(Manager.Screen)
 Cat.SetImagePath("Cat.jpg")
