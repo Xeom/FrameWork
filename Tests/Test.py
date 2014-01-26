@@ -1,16 +1,16 @@
 ##
-CreateScreen(600, 600)
-Cat = Sprite(Manager.Screen)
-Cat.SetImagePath("Cat.jpg")
-Cat.Move(100, 100)
-Direction = 1
-## Forever
-Cat.Turn(Direction)
-Manager.ClearScreen()
-Cat.Blit()
-Manager.Update()
-## KeyDown ]
-Direction -= 2
-## KeyDown [
-Direction += 2
+Game.CreateScreen(500,100)
+
+Box = Game.New(TextBox, size=16)
+Box.SetPosition(0, 50)
+
+## KeyPress
+if Key == "\b":
+    Box.Delete()
+    
+else:
+    Box.Write(Key)
+    
+Game.Draw()
+Game.Update()
 

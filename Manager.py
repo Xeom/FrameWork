@@ -5,7 +5,7 @@ import Objects
 import Run
 
 class Manager:
-    TargetTPS = 60
+    TargetTPS = 120
     
     def __init__(self):
         pygame.init()
@@ -21,7 +21,7 @@ class Manager:
                          "pygame": pygame}
 
         Objects.LoadScripts("/Objects/", self.Vars)
-        self.Events = Run.LoadScripts(None, self.Vars)
+        self.Events = Run.LoadScripts("/Tests/", self.Vars)
 
         C = 0
         
@@ -40,6 +40,9 @@ class Manager:
 
     def GetFPS(self):
         return self.FPS.get_fps()
+
+    def GetTPS(self):
+        return self.TPS.get_fps()
     
     def CreateScreen(self, X, Y):
         self.Screen = pygame.display.set_mode((X, Y))
@@ -73,7 +76,11 @@ class Manager:
         self.Events["Forever"].Exec()
         
         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
+            if   event.type == pygame.KEYDOWN:
                 self.Events["KeyDown"].Exec(event)
+                self.Events["KeyPress"].Exec(event)
+                
+            elif event.type == pygame.KEYUP:
+                self.Events["KeyUp"].Exec(event)
 Manager()    
     

@@ -34,7 +34,6 @@ class KeyDown:
 
         if code:
             for compiled in code:
-                print(compiled)
                 exec(compiled, self.API)
 
         code = self.Events.get("any")
@@ -55,6 +54,20 @@ class KeyUp(KeyDown):
     def Exec(self, event):
         self.RunCode(event)
 
+class KeyPress(Event):        
+    def New(self, code, head):               
+        self.Events.append(compile(code, "<string>", "exec"))
+
+    def Exec(self, event):
+        self.API["Modifiers"] = event.mod
+        self.API["Key"] = event.unicode
+
+        for compiled in self.Events:
+                exec(compiled, self.API)
+
+        del self.API["Key"]
+        del self.API["Modifiers"]
+
 class MouseMove(Event):pass
 
 def LoadScripts(path, API):
@@ -62,13 +75,21 @@ def LoadScripts(path, API):
         "MouseMove" : MouseMove(API),
         "Forever"   : Forever(API),
         "KeyDown"   : KeyDown(API),
-        "KeyUp"     : KeyUp(API)}
+        "KeyUp"     : KeyUp(API),
+        "KeyPress"  : KeyPress(API)}
     
     scriptPath = os.getcwd()+path
 
-    for path in os.listdir(scriptPath):
-        fullPath = scriptPath+path
-        raw = open(fullPath).read()
+    try:
+        files = os.listdir(scriptPath)
+
+    except Exception as E:
+        print("Error reading "+scriptPath+": "+str(E))
+
+    for raw in (open(scriptPath+p).read()\
+                 for p in os.listdir(scriptPath)\
+                 if p.endswith(".py")):
+
         sections = raw.split("##")[1:]
 
         for script in sections:

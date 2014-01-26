@@ -23,6 +23,10 @@ class SubSurface(object):
     def Blit(self):
         self.Parent.blit(self.Image, (self.X, self.Y))
 
+    def SetPosition(self, X, Y):
+        self.X = X
+        self.Y = Y
+
 def sin(value):
     return math.sin(math.radians(value))
 
