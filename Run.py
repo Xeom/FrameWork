@@ -64,7 +64,7 @@ def LoadScripts(path, API):
         "KeyDown"   : KeyDown(API),
         "KeyUp"     : KeyUp(API)}
     
-    scriptPath = os.getcwd()+"/Tests/"
+    scriptPath = os.getcwd()+path
 
     for path in os.listdir(scriptPath):
         fullPath = scriptPath+path
