@@ -14,16 +14,14 @@ class Manager:
 
         self.TPS      = pygame.time.Clock()
         self.FPS      = pygame.time.Clock()
-        
+
         self.Screen   = None
 
         self.Vars     = {"Game":   self, 
                          "pygame": pygame}
 
         Objects.LoadScripts("/Objects/", self.Vars)
-        self.Events = Run.LoadScripts("/Tests/", self.Vars)
-
-        C = 0
+        self.Events = Run.LoadScripts("/Tests/", self.Vars)p
         
         while True:
             self.Tick()

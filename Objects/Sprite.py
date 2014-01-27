@@ -19,7 +19,8 @@ class Sprite(SubSurface):
         self.Y += y
 
     def Forward(self, distance):
-        self.Move(distance*sin(self.Angle), distance*cos(self.Angle))
+        self.Move(distance*math.sin(self.Angle),
+                  distance*math.cos(self.Angle))
 
     def Turn(self, amount):
         self.Angle -= amount

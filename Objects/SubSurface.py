@@ -1,5 +1,3 @@
-import math
-
 class SubSurface(object):
     def __init__(self, parent):
         self.Parent    = parent
@@ -26,9 +24,3 @@ class SubSurface(object):
     def SetPosition(self, X, Y):
         self.X = X
         self.Y = Y
-
-def sin(value):
-    return math.sin(math.radians(value))
-
-def cos(value):
-    return math.cos(math.radians(value))
