@@ -6,7 +6,18 @@ class Event(object):
         self.Events = []
         self.API = API
 
-class KeyDown:
+    def New(self, code, head):
+        self.Events.append(compile(code, "<string>", "exec"))
+
+    def Exec(self, **kwargs):
+        self.API.update(kwargs)
+        self.RunCode()
+
+    def RunCode(self):
+        for compiled in self.Events:
+            exec(compiled, self.API)
+
+class KeyEvent(Event):
     def __init__(self, API):
         self.Events = {}
         self.API = API
@@ -23,13 +34,8 @@ class KeyDown:
 
         self.Events[key].append(compile(code, "<string>", "exec"))
 
-    def Exec(self, event):
-        self.API["Modifiers"] = event.mod
-        self.RunCode(event)
-        del self.API["Modifiers"]
-
-    def RunCode(self, event):
-        name = pygame.key.name(event.key)
+    def RunCode(self, ):
+        name = pygame.key.name(self.API["Key"])
         code = self.Events.get(name)
 
         if code:
@@ -42,41 +48,18 @@ class KeyDown:
             for compiled in code:
                 exec(compiled, self.API)
 
-class Forever(Event):
-    def New(self, code, head):
-        self.Events.append(compile(code, "<string>", "exec"))
-
-    def Exec(self):
-        for compiled in self.Events:
-            exec(compiled, self.API)
-
-class KeyUp(KeyDown):
-    def Exec(self, event):
-        self.RunCode(event)
-
-class KeyPress(Event):        
-    def New(self, code, head):               
-        self.Events.append(compile(code, "<string>", "exec"))
-
-    def Exec(self, event):
-        self.API["Modifiers"] = event.mod
-        self.API["Key"] = event.unicode
-
-        for compiled in self.Events:
-                exec(compiled, self.API)
-
-        del self.API["Key"]
-        del self.API["Modifiers"]
-
-class MouseMove(Event):pass
-
 def LoadScripts(path, API):
     Events = {
-        "MouseMove" : MouseMove(API),
-        "Forever"   : Forever(API),
-        "KeyDown"   : KeyDown(API),
-        "KeyUp"     : KeyUp(API),
-        "KeyPress"  : KeyPress(API)}
+        "MouseMove" : Event(API),
+        "MouseDown" : Event(API),
+        "MouseUp"   : Event(API),
+        "Forever"   : Event(API),
+        "KeyPress"  : Event(API),
+        "Quit"      : Event(API),
+        "MouseDown" : Event(API),
+        "MouseUp"   : Event(API),
+        "KeyDown"   : KeyEvent(API),
+        "KeyUp"     : KeyEvent(API)}
     
     scriptPath = os.getcwd()+path
 

@@ -1,0 +1,171 @@
+This project is designed for the easy implementation of games 
+in a simple environment.
+
+There are two subdirectories, from which scripts may be used.
+The first is /Objects/, where scripts to be called on runtime
+are added. These include a standard library of sorts, with
+commonly used objects, all scripts in this directory are called
+with a shared namespace, and thus, one globally defined object
+in one script will be accessible to all scripts loaded after 
+it. The order in which these scripts are loaded is defined in
+/Objects/dependencies.txt, the order of filenames relative to
+/Objects/ in this file will be the order in which they load,
+all other scripts in /Objects/ not referenced in 
+/Objects/dependencies.txt will be loaded afterwards, in no
+particular order (maybe alphabetical, but it depends what order
+the OS gives them to me in). If you want a file not to load, 
+you need to explicitly put the file name in 
+/Objects/dependencies.txt prefixed with an '!'.
+
+The global variables that all scripts in /Objects/ start with
+are as follows:
+
+Game:   Class instance of Manager.Manager, is the primary
+		class for loading, and running everything.
+		
+pygame: Pygame module
+
+After running through all scripts in /Objects/, the new 
+namespace is used in running all user scripts, allowing for
+STD libs, mods, and whatever else.
+
+The Game object is present in the STD namespace, and is not
+added in any /Object/ script. It is an instance of the class
+used for controlling everything, it's methods are as follows:
+
+Manager.Manager:
+	Run():
+		Loads and runs all user scripts.
+		
+	Draw():
+		Draws every child surface initiated with New().
+		
+	Update():
+		Updates the screen.
+		
+	GetFPS():
+		Gets the rate at which the screen is updated, in hertz.
+		
+	GetTPS():
+		Gets the rate at which all handling happens, in hertz.
+		
+	CreateScreen(X, Y):
+		Creates a screen of dimensions X and Y.
+		
+	CheckScreen():
+		Used internally - checks a screen is initiated, and
+		creates one if not.
+		
+	New(cls, *args, **kwargs):
+		Creates a new instance of a subSurface style object,
+		which will blit onto the screen. Arguments past the
+		object's class are passed as they would be directly to
+		the class's __init__ method. The new instance is 
+		returned.
+		
+	ClearScreen():
+		Sets the screen to Manager.Colour (default white).
+		
+	FillScreen(R, G, B):
+		Fills the screen with any colour.
+		
+	Tick():
+		Used internally to handle all events etc.
+		
+The standard libary 'math' is also available by default in 
+globals, under the name Math, documentation for it can be found
+here: 
+http://docs.python.org/3.2/library/math.html
+
+Pygame documentation can also be found here:
+http://pygame.org/docs/
+
+Rand is a shortcut to:
+http://docs.python.org/3.2/library/random.html#random.randint
+
+There are a series of standard objects with common uses defined
+in /Objects/ for the ease of the user. They are:
+
+GetColour(Colour):
+	A function to convert from 0xRRGGBB, "RRGGBB" and "RRGGBBAA"
+	to (R, G, B) or (R, G, B, A). It also can take input in this
+	format.
+	
+SubSurface(parent):
+	A class for displaying things. The parent is the surface to
+	draw onto. The usual way of putting a SubSurface onto the 
+	screen is Game.New(SubSurface).
+	
+	GetPos():
+		Returns the X, Y position of the SubSurface.
+		
+	Image:
+		The pygame.Surface() instance used for this SubSurface.
+		
+	SetImage(Image):
+		Set the image for this SubSurface.
+		
+	Blit():
+		Draw this SubSurface onto its parent.
+		
+	SetPos(x, y):
+		Moves the SubSurface to the defined location.
+		
+	Set(x, y, colour):
+		Sets this SubSurface to be a blank image of dimensions.
+		x, and y, and colour colour.
+		
+	Fill(colour):
+		Fills this subsurface with a desired colour.
+		
+	UpdateMask():
+		Updates the collision mask of this surface, used 
+		internally.
+	
+Sprite:
+	This class inherits from SubSurface, meaning all methods from
+	SubSurface still work on it.
+	
+	IsColliding(self, other):
+		Returns None if Sprite is not colliding with other 
+		(SubSurface or Sprite), otherwise, returns first found
+		point of collision.
+		
+	Move(x, y):
+		Change the Sprites position by x and y
+		
+	Forward(distance):
+		Move the sprite in the direction it is facing for 
+		distance pixels
+		
+	Turn(amount):
+		Rotate the sprite by an amount.
+		
+TextBox:
+	This class inherits from SubSurface, meaning all methods from
+	SubSurface still work on it.
+	
+	SetColour(colour):
+		Set the colour of the text
+		
+	SetFontAndSize(font, size):
+		Set a new font and size for the text to display in.
+		
+	SetFont(font):
+		Set a new font for the text to display in.
+		
+	SetSize(size):
+		Set a new size for the text to display in.
+		
+	SetText(text):
+		Set what text is displayed by the TextBox
+		
+	Write(text):
+		Append text to the TextBox
+		
+	Delete(amount):
+		Delete text from the TextBox, if no amount is supplied,
+		it is assumed to be 1.
+		
+	UpdateImage():
+		Update Image, call before Blit.

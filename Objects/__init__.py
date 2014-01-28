@@ -1,6 +1,7 @@
 import os
 
 def Load(file, variables):
+    print("Loading "+file)
     try:
         exec(compile(open(file).read(), file, "exec"), variables)
 

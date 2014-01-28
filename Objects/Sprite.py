@@ -18,7 +18,8 @@ class Sprite(SubSurface):
 
     def IsColliding(self, other):
         pos    = other.GetPos()
-        offset = (int(pos[0]-self.X), int(pos[1]-self.Y))
+        ownpos = self. GetPos()
+        offset = (int(pos[0]-ownpos[0]), int(pos[1]-ownpos[1]))
         return self.Mask.overlap(other.Mask, offset)
 
     def Move(self, x, y):
@@ -26,8 +27,8 @@ class Sprite(SubSurface):
         self.Y += y
 
     def Forward(self, distance):
-        self.Move(distance*math.sin(math.radians(self.Angle)),
-                  distance*math.cos(math.radians(self.Angle)))
+        self.Move(distance*Math.sin(Math.radians(self.Angle)),
+                  distance*Math.cos(Math.radians(self.Angle)))
 
     def Fill(self, colour):
         self.Orig.fill(GetColour(colour))

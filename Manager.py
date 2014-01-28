@@ -1,14 +1,31 @@
+print("Importing pygame")
 import pygame
+
+print("Importing time")
 import time
 
+print("Importing Objects")
 import Objects
+
+print("Importing Run")
 import Run
 
 class Manager:
     TargetTPS = 120
     
     def __init__(self):
+        self.Vars     = {"Game":   self, 
+                         "pygame": pygame}
+                         
+        Objects.LoadScripts("/Objects/", self.Vars)
+        self.OrigVars = self.Vars.copy()
+
+    def Run(self):
+        print("Initiating pygame")
         pygame.init()
+        print("... done")
+
+        self.Running = True
 
         self.Children = []
 
@@ -16,15 +33,12 @@ class Manager:
         self.FPS      = pygame.time.Clock()
 
         self.Screen   = None
-
-        self.Vars     = {"Game":   self, 
-                         "pygame": pygame}
-
-        Objects.LoadScripts("/Objects/", self.Vars)
-        self.ReadyToRun = self.Vars.copy()
+        
+        self.Vars = self.OrigVars.copy()
+        
         self.Events = Run.LoadScripts("/Tests/", self.Vars)
 
-        while True:
+        while self.Running:
             self.Tick()
 
     def Draw(self):
@@ -69,14 +83,62 @@ class Manager:
 
     def Tick(self):
         self.TPS.tick(self.TargetTPS)
+        
         self.Events["Forever"].Exec()
         
         for event in pygame.event.get():
-            if   event.type == pygame.KEYDOWN:
-                self.Events["KeyDown"].Exec(event)
-                self.Events["KeyPress"].Exec(event)
+            if    event.type == pygame.MOUSEMOTION:
+                self.Events["MouseMove"].Exec(MousePos      = event.pos,
+                                              MouseRel      = event.rel,
+                                              MouseButtons  = event.buttons)
+
+            elif event.type == pygame.KEYDOWN:
+                self.Events["KeyDown"].Exec(Key=event.key,
+                                            Unicode=event.unicode,
+                                            Mod=event.mod)
+                
+                self.Events["KeyPress"].Exec(Unicode=event.unicode)
                 
             elif event.type == pygame.KEYUP:
-                self.Events["KeyUp"].Exec(event)
-Manager()    
+                self.Events["KeyUp"].Exec(Key=event.key,
+                                          Mod=event.mod)
+
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                self.Events["MouseDown"].Exec(MousePos = event.pos,
+                                              MouseButton = event.button)
+
+            elif event.type == pygame.MOUSEBUTTONUP:
+                self.Events["MouseUp"].Exec(MousePos = event.pos,
+                                            MouseButton = event.button)
+            
+
+
+
+            elif event.type == pygame.QUIT:
+                self.Events["Quit"].Exec()
+                self.Running = False
+                pygame.quit()
+
+"""    
+QUIT             none
+ACTIVEEVENT      gain, state
+KEYDOWN          unicode, key, mod
+KEYUP            key, mod
+MOUSEMOTION      pos, rel, buttons
+MOUSEBUTTONUP    pos, button
+MOUSEBUTTONDOWN  pos, button
+JOYAXISMOTION    joy, axis, value
+JOYBALLMOTION    joy, ball, rel
+JOYHATMOTION     joy, hat, value
+JOYBUTTONUP      joy, button
+JOYBUTTONDOWN    joy, button
+VIDEORESIZE      size, w, h
+VIDEOEXPOSE      none
+USEREVENT        code
+"""
+
+m = Manager()
+while 1:
+    m.Run()
     
