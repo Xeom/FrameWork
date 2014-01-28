@@ -2,6 +2,11 @@ class SubSurface(object):
     def __init__(self, parent):
         self.Parent    = parent
         self.X, self.Y = 0, 0
+        self.SetImage(pygame.Surface((10, 10)))
+        self.Image.fill((255, 0, 0))
+
+    def GetPos(self):
+        return self.X, self.Y
 
     def SetImagePath(self, path):
         try:
@@ -17,10 +22,23 @@ class SubSurface(object):
 
     def SetImage(self, Image):
         self.Image = Image
+        self.UpdateMask()
 
     def Blit(self):
-        self.Parent.blit(self.Image, (self.X, self.Y))
+        self.Parent.blit(self.Image, self.GetPos())
 
-    def SetPosition(self, X, Y):
-        self.X = X
-        self.Y = Y
+    def SetPos(self, x, y):
+        self.X = x
+        self.Y = y
+
+    def Set(self, x, y, colour):
+        self.SetImage(pygame.Surface((x, y), pygame.SRCALPHA))
+        self.Fill(colour)
+
+    def Fill(self, colour):
+        self.Image.fill(GetColour(colour))
+        self.UpdateMask()
+
+    def UpdateMask(self):
+        self.Mask = pygame.mask.from_surface(self.Image)
+

@@ -8,7 +8,7 @@ def Load(file, variables):
         print("Error loading "+file+": "+str(E))
 
 def LoadScripts(path, variables):
-    cwd     = os.getcwd()+"/Objects/"
+    cwd     = os.getcwd()+path
 
     fileList = [cwd+p for p in os.listdir(cwd)\
                 if p.endswith(".py") and not p.startswith("_")]
@@ -23,7 +23,8 @@ def LoadScripts(path, variables):
     for file in (cwd+p.strip() for p in dependencies):
         if file in fileList:
             fileList.remove(file)
-        Load(file, variables)
+        if file[0] != '!':
+            Load(file, variables)
 
     for file in fileList:
         Load(file, variables)

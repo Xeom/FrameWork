@@ -21,13 +21,13 @@ class Manager:
                          "pygame": pygame}
 
         Objects.LoadScripts("/Objects/", self.Vars)
-        self.Events = Run.LoadScripts("/Tests/", self.Vars)p
-        
+        self.ReadyToRun = self.Vars.copy()
+        self.Events = Run.LoadScripts("/Tests/", self.Vars)
+
         while True:
             self.Tick()
 
     def Draw(self):
-        self.ClearScreen
         for Child in self.Children:
             Child.Blit()
 
@@ -45,7 +45,6 @@ class Manager:
     def CreateScreen(self, X, Y):
         self.Screen = pygame.display.set_mode((X, Y))
         self.ClearScreen()
-        self.Update()
 
     def CheckScreen(self):
         if not self.Screen:
@@ -61,7 +60,6 @@ class Manager:
 
         return new
         
-
     def ClearScreen(self):
         self.FillScreen(0xFF, 0xFF, 0xFF)
 

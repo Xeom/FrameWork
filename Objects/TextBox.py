@@ -20,20 +20,7 @@ class TextBox(SubSurface):
         self.Write('')
 
     def SetColour(self, colour):
-        if isinstance(colour, str):
-            self.Colour = list((int(colour[x:x+2], 16)\
-                                 for x in range(0, len(colour), 2)))
-
-        elif isinstance(colour, int):
-            for x in range(0, 3, -1):
-                print(x)
-                print(colour)
-                self.Colour[x] = colour & 0xFF
-                colour >>= 8
-            print(self.Colour)
-                
-        else:
-            self.Colour = colour
+        self.Colour = GetColour(colour)
 
     def UpdateFont(self):
         self.Font = pygame.font.SysFont(self.FontName,
