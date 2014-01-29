@@ -6,8 +6,8 @@ class Event(object):
         self.Events = []
         self.API = API
 
-    def New(self, code, head):
-        self.Events.append(compile(code, "<string>", "exec"))
+    def New(self, code, head, path):
+        self.Events.append(compile(code, path, "exec"))
 
     def Exec(self, **kwargs):
         self.API.update(kwargs)
@@ -22,7 +22,7 @@ class KeyEvent(Event):
         self.Events = {}
         self.API = API
         
-    def New(self, code, head):
+    def New(self, code, head, path):
         if head:
             key = head[1].lower()
 
@@ -32,7 +32,7 @@ class KeyEvent(Event):
         if key not in self.Events:
             self.Events[key] = []
 
-        self.Events[key].append(compile(code, "<string>", "exec"))
+        self.Events[key].append(compile(code, path, "exec"))
 
     def RunCode(self, ):
         name = pygame.key.name(self.API["Key"])
@@ -60,18 +60,18 @@ def LoadScripts(path, API):
         "MouseUp"   : Event(API),
         "KeyDown"   : KeyEvent(API),
         "KeyUp"     : KeyEvent(API)}
-    
-    scriptPath = os.getcwd()+path
-
+        
     try:
         files = os.listdir(scriptPath)
 
     except Exception as E:
-        print("Error reading "+scriptPath+": "+str(E))
+        print("Error reading "+path+" directory: "+str(E))
 
-    for raw in (open(scriptPath+p).read()\
-                 for p in os.listdir(scriptPath)\
-                 if p.endswith(".py")):
+    for filePath in os.listdir(scriptPath):
+        if filePath.endswith(".py"):
+            continue
+
+        raw = open(filePath).read()
 
         sections = raw.split("##")[1:]
 
@@ -85,9 +85,9 @@ def LoadScripts(path, API):
                     event.New(script[lineEnd:], head)
 
                 else:
-                    Exception(head[0]+" is not a valid event.")
+                    Exception(filePath+": "+head[0]+" is not a valid event.")
 
             else:
-                exec(compile(script, "<string>", "exec"), API)
+                exec(compile(script, filePath, "exec"), API)
 
     return Events
