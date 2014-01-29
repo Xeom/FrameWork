@@ -11,7 +11,7 @@ print("Importing Run")
 import Run
 
 class Manager:
-    TargetTPS = 120
+    TargetTPS = 60
     
     def __init__(self):
         self.Vars     = {"Game":   self, 
@@ -19,14 +19,13 @@ class Manager:
                          
         Objects.LoadScripts("/Objects/", self.Vars)
         self.OrigVars = self.Vars.copy()
-
-    def Run(self):
+        
         print("Initiating pygame")
         pygame.init()
         print("... done")
 
         self.Running = True
-
+        self.Colour = (0xFF, 0xFF, 0xFF)
         self.Children = []
 
         self.TPS      = pygame.time.Clock()
@@ -40,6 +39,8 @@ class Manager:
 
         while self.Running:
             self.Tick()
+
+        pygame.quit()
 
     def Draw(self):
         for Child in self.Children:
@@ -70,12 +71,13 @@ class Manager:
     def New(self, cls, *args, **kwargs):
         self.CheckScreen()
         new = cls(self.Screen, *args, **kwargs)
+        self.CheckScreen()
         self.Children.append(new)
 
         return new
         
     def ClearScreen(self):
-        self.FillScreen(0xFF, 0xFF, 0xFF)
+        self.FillScreen(*self.Colour)
 
     def FillScreen(self, R, G, B):
         self.CheckScreen()
@@ -93,8 +95,7 @@ class Manager:
                                               MouseButtons  = event.buttons)
 
             elif event.type == pygame.KEYDOWN:
-                self.Events["KeyDown"].Exec(Key=event.key,
-                                            Unicode=event.unicode,
+                self.Events["KeyDown"].Exec(Unicode=event.unicode,
                                             Mod=event.mod)
                 
                 self.Events["KeyPress"].Exec(Unicode=event.unicode)
@@ -112,33 +113,10 @@ class Manager:
                 self.Events["MouseUp"].Exec(MousePos = event.pos,
                                             MouseButton = event.button)
             
-
-
-
             elif event.type == pygame.QUIT:
                 self.Events["Quit"].Exec()
                 self.Running = False
-                pygame.quit()
 
-"""    
-QUIT             none
-ACTIVEEVENT      gain, state
-KEYDOWN          unicode, key, mod
-KEYUP            key, mod
-MOUSEMOTION      pos, rel, buttons
-MOUSEBUTTONUP    pos, button
-MOUSEBUTTONDOWN  pos, button
-JOYAXISMOTION    joy, axis, value
-JOYBALLMOTION    joy, ball, rel
-JOYHATMOTION     joy, hat, value
-JOYBUTTONUP      joy, button
-JOYBUTTONDOWN    joy, button
-VIDEORESIZE      size, w, h
-VIDEOEXPOSE      none
-USEREVENT        code
-"""
+Manager()
 
-m = Manager()
-while 1:
-    m.Run()
     

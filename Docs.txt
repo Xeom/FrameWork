@@ -169,3 +169,33 @@ TextBox:
 		
 	UpdateImage():
 		Update Image, call before Blit.
+		
+The second location from which user code is run is defined by
+the user. Typically, code will come from a directory of 
+scripts, which all load on the same global vars.
+
+When to execute different parts of the scripts varies based on 
+a series of flags, prefixed with ##, commenting them out.
+
+The ## flags can be used for specific events, which are called
+by the Manager. Each event can have multiple scripts. The
+events are as follows:
+
+##
+This code is called once on startup.
+
+## KeyDown [Key]
+This event is called when the keycode corresponding to the 
+letter given on the qwerty keyboard is pressed.
+
+This adds the following global variables:
+	Unicode - How the key would appear if typed
+	Mod     - What shift, alt etc. keys were down when the
+			  key was pressed
+	
+
+## KeyUp [Key]
+This event is called when the keycode corresponding to the 
+letter given on the qwerty keyboard is released. 
+
+## KeyPress

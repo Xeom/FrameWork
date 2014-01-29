@@ -9,6 +9,7 @@ class TextBox(SubSurface):
 
         else:
             self.FontName = pygame.font.get_default_font()
+        print(pygame.font.get_default_font())
 
         self.Text = ''
 
@@ -23,8 +24,16 @@ class TextBox(SubSurface):
         self.Colour = GetColour(colour)
 
     def UpdateFont(self):
-        self.Font = pygame.font.SysFont(self.FontName,
-                                        self.Size)
+        try:
+            self.Font = pygame.font.SysFont(self.FontName,
+                                            self.Size) 
+
+        except:
+            print("Font "+self.FontName+" not found using default")
+            self.FontName = pygame.font.get_default_font()
+            self.Font = pygame.font.SysFont(self.FontName,
+                                            self.Size) 
+           
 
     def SetFontAndSize(self, font, size):
         self.FontName = font
