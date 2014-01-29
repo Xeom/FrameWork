@@ -10,17 +10,22 @@ import Objects
 print("Importing Run")
 import Run
 
+import os
+
 class Manager:
     TargetTPS = 120
     
-    def __init__(self):
+    def __init__(self, ObjectPath, GamePath):
+        cwd = os.getcwd()
+        
+        self.ObjectPath = cwd+ObjectPath
+        self.GamePath   = cwd+GamePath
+        
         self.Vars     = {"Game":   self, 
                          "pygame": pygame}
                          
-        Objects.LoadScripts("/Objects/", self.Vars)
-        self.OrigVars = self.Vars.copy()
+        Objects.LoadScripts(self.ObjectPath, self.Vars)
 
-    def Run(self):
         print("Initiating pygame")
         pygame.init()
         print("... done")
@@ -34,9 +39,7 @@ class Manager:
 
         self.Screen   = None
         
-        self.Vars = self.OrigVars.copy()
-        
-        self.Events = Run.LoadScripts("/Tests/", self.Vars)
+        self.Events = Run.LoadScripts(self.GamePath, self.Vars)
 
         while self.Running:
             self.Tick()
@@ -138,7 +141,5 @@ VIDEOEXPOSE      none
 USEREVENT        code
 """
 
-m = Manager()
-while 1:
-    m.Run()
+Manager()
     
