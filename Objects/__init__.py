@@ -11,8 +11,7 @@ def Load(file, variables):
 def LoadScripts(path, variables):
     cwd     = os.getcwd()+path
 
-    fileList = [cwd+p for p in os.listdir(cwd)\
-                if p.endswith(".py") and not p.startswith("_")]
+    fileList = [cwd+p for p in os.listdir(cwd) if p.endswith(".py")]
 
     try:
         dependencies = open(cwd+"Dependencies.txt").readlines()
