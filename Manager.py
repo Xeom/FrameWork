@@ -23,9 +23,9 @@ class EventContainer:
         self.MouseButtons = []
 
 class Manager:
-    TargetTPS = 60
-    
-    def __init__(self, ObjectPath, GamePath):
+    def __init__(self, ObjectPath, GamePath, TPS):
+        self.TPS = TPS
+        
         cwd = os.getcwd()
         
         self.ObjectPath = cwd+ObjectPath
