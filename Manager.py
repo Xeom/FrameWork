@@ -12,6 +12,16 @@ import Run
 
 import os
 
+class EventContainer:
+    def __init__(self):
+        self.MousePos = None
+        self.MouseRel = None
+        self.Unicode = None
+        self.Mod = None
+        self.Key = None
+        self.KeysDown = []
+        self.MouseButtons = []
+
 class Manager:
     TargetTPS = 60
     
@@ -21,8 +31,12 @@ class Manager:
         self.ObjectPath = cwd+ObjectPath
         self.GamePath   = cwd+GamePath
         
+        self.EventVars  = EventContainer()
+        
         self.Vars     = {"Game":   self, 
-                         "pygame": pygame}
+                         "pygame": pygame,
+                         "Event": self.EventVars}
+                         
         
         Objects.LoadScripts(self.ObjectPath, self.Vars)
 
@@ -94,30 +108,49 @@ class Manager:
         
         for event in pygame.event.get():
             if    event.type == pygame.MOUSEMOTION:
-                self.Events["MouseMove"].Exec(MousePos      = event.pos,
-                                              MouseRel      = event.rel,
-                                              MouseButtons  = event.buttons)
+                self.EventVars.MouseRel      = event.rel
+                self.EventVars.MousePos      = event.pos
+                self.EventVars.MouseButtons  = event.buttons
+                
+                self.Events["MouseMove"].Exec()
 
             elif event.type == pygame.KEYDOWN:
-                self.Events["KeyDown"].Exec(event.key,
-                                            Unicode=event.unicode,
-                                            Mod=event.mod)
+                self.EventVars.Key     = event.key
+                self.EventVars.Unicode = event.unicode
+                self.EventVars.Mod     = event.mod
                 
-                self.Events["KeyPress"].Exec(Key=event.key,
-                                             Unicode=event.unicode)
+                if event.key not in self.EventVars.KeysDown:
+                    self.EventVars.KeysDown.append(event.key)
+                
+                self.Events["KeyDown"].Exec(event.key)
+                self.Events["KeyPress"].Exec()
                 
             elif event.type == pygame.KEYUP:
-                self.Events["KeyUp"].Exec(event.key,
-                                          Mod=event.mod)
+                self.EventVars.Mod = event.mod
+                
+                if event.key in self.EventVars.KeysDown:
+                    self.EventVars.KeysDown.remove(event.key)
+                
+                self.Events["KeyUp"].Exec(event.key)
 
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                self.Events["MouseDown"].Exec(MousePos = event.pos,
-                                              MouseButton = event.button)
+                self.EventVars.MousePos    = event.pos
+                self.EventVars.MouseButton = event.button
+                
+                if event.button not in self.EventVars.MouseButtons:
+                    self.EventVars.MouseButtons.append(event.button)
+                
+                self.Events["MouseDown"].Exec()
 
             elif event.type == pygame.MOUSEBUTTONUP:
-                self.Events["MouseUp"].Exec(MousePos = event.pos,
-                                            MouseButton = event.button)
+                self.EventVars.MousePos    = event.pos
+                self.EventVars.MouseButton = event.button
+                
+                if event.button in self.EventVars.MouseButtons:
+                    self.EventVars.MouseButtons.remove(event.button)
+                
+                self.Events["MouseUp"].Exec()
             
             elif event.type == pygame.QUIT:
                 self.Events["Quit"].Exec()
