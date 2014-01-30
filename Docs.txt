@@ -192,11 +192,46 @@ letter given on the qwerty keyboard is pressed.
 This adds the following global variables:
 	Unicode - How the key would appear if typed
 	Mod     - What shift, alt etc. keys were down when the
-			  key was pressed
+	          key was pressed
 	
 
 ## KeyUp [Key]
 This event is called when the keycode corresponding to the 
-letter given on the qwerty keyboard is released. 
+letter given on the qwerty keyboard is released. The supplied
+key corresponds with the qwerty keyboard, and its position 
+is constant on all layouts.
+
+This adds the following global variables:
+	Mod - The modifier keys pressed
 
 ## KeyPress
+This event is called on any keypress. 
+
+This adds the following global variables:
+	Key     - The keycode pressed
+	Unicode - What the keypress would type
+
+## Forever
+This is called every managfer tick
+
+## MouseMove
+This is called whenever the mouse moves.
+
+This adds the following global variables:
+	MousePos     - The Position of the mouse
+	MouseRel     - The Movement of the mouse
+	MouseButtons - What buttons on the mouse are down
+	
+## MouseDown
+This is called whenever a mouse button is pressed down.
+
+This adds the following global variables:
+	MousePos    - The Position of the mouse
+	MouseButton - Which button was pressed
+	
+## MouseUp
+This is called whenever a mouse button is unpressed.
+
+This adds the following global variables:
+	MousePos    - The Position of the mouse
+	MouseButton - Which button was unpressed
