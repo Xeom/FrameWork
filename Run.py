@@ -8,14 +8,19 @@ class Event:
 
     def New(self, code, head, path):
         self.Events.append(compile(code, path, "exec"))
-
-    def Exec(self, **kwargs):
-        self.API.update(kwargs)
-        self.RunCode()
-
-    def RunCode(self):
+        
+    def Exec(self):
         for compiled in self.Events:
             exec(compiled, self.API)
+
+class ArgsEvent(Event):
+    def Exec(self, **kwargs):
+        self.API.update(kwargs)
+        
+        for compiled in self.Events:
+            exec(compiled, self.API)
+            
+
 
 class KeyEvent:
     def __init__(self, API):
@@ -36,9 +41,7 @@ class KeyEvent:
 
     def Exec(self, key, **kwargs):
         self.API.update(kwargs)
-        self.RunCode(key)
 
-    def RunCode(self, key):
         name = pygame.key.name(key)
         code = self.Events.get(name)
 
@@ -54,16 +57,16 @@ class KeyEvent:
 
 def LoadScripts(path, API):
     Events = {
-        "MouseMove" : Event(API),
-        "MouseDown" : Event(API),
-        "MouseUp"   : Event(API),
-        "Forever"   : Event(API),
-        "KeyPress"  : Event(API),
         "Quit"      : Event(API),
-        "MouseDown" : Event(API),
-        "MouseUp"   : Event(API),
+        "Forever"   : Event(API),
         "KeyDown"   : KeyEvent(API),
-        "KeyUp"     : KeyEvent(API)}
+        "KeyUp"     : KeyEvent(API),
+        "MouseMove" : ArgsEvent(API),
+        "MouseDown" : ArgsEvent(API),
+        "MouseUp"   : ArgsEvent(API),
+        "KeyPress"  : ArgsEvent(API),
+        "MouseDown" : ArgsEvent(API),
+        "MouseUp"   : ArgsEvent(API)}
         
     try:
         files = os.listdir(path)
