@@ -110,7 +110,6 @@ class Manager:
             if    event.type == pygame.MOUSEMOTION:
                 self.EventVars.MouseRel      = event.rel
                 self.EventVars.MousePos      = event.pos
-                self.EventVars.MouseButtons  = event.buttons
                 
                 self.Events["MouseMove"].Exec()
 
@@ -120,7 +119,7 @@ class Manager:
                 self.EventVars.Mod     = event.mod
                 
                 if event.key not in self.EventVars.KeysDown:
-                    self.EventVars.KeysDown.append(event.key)
+                    self.EventVars.KeysDown.append(pygame.key.get_name(event.key))
                 
                 self.Events["KeyDown"].Exec(event.key)
                 self.Events["KeyPress"].Exec()
@@ -129,7 +128,7 @@ class Manager:
                 self.EventVars.Mod = event.mod
                 
                 if event.key in self.EventVars.KeysDown:
-                    self.EventVars.KeysDown.remove(event.key)
+                    self.EventVars.KeysDown.remove(pygame.key.get_name(event.key))
                 
                 self.Events["KeyUp"].Exec(event.key)
 
