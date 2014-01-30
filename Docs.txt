@@ -182,6 +182,12 @@ The ## flags can be used for specific events, which are called
 by the Manager. Each event can have multiple scripts. The
 events are as follows:
 
+An Event class instance is in global namespace, allowing variables
+relating to an event to be stored. It also has the following
+variables:
+	KeysDown - A list of all keycodes currently down
+	MouseDown - A list of all mouse buttons currently down
+
 ##
 This code is called once on startup.
 
@@ -189,7 +195,7 @@ This code is called once on startup.
 This event is called when the keycode corresponding to the 
 letter given on the qwerty keyboard is pressed.
 
-This adds the following global variables:
+This adds the following variables to Event:
 	Unicode - How the key would appear if typed
 	Mod     - What shift, alt etc. keys were down when the
 	          key was pressed
@@ -201,13 +207,13 @@ letter given on the qwerty keyboard is released. The supplied
 key corresponds with the qwerty keyboard, and its position 
 is constant on all layouts.
 
-This adds the following global variables:
+This adds the following variables to Event:
 	Mod - The modifier keys pressed
 
 ## KeyPress
 This event is called on any keypress. 
 
-This adds the following global variables:
+This adds the following variables to Event:
 	Key     - The keycode pressed
 	Unicode - What the keypress would type
 
@@ -217,21 +223,20 @@ This is called every managfer tick
 ## MouseMove
 This is called whenever the mouse moves.
 
-This adds the following global variables:
+This adds the following variables to Event:
 	MousePos     - The Position of the mouse
 	MouseRel     - The Movement of the mouse
-	MouseButtons - What buttons on the mouse are down
 	
 ## MouseDown
 This is called whenever a mouse button is pressed down.
 
-This adds the following global variables:
+This adds the following variables to Event:
 	MousePos    - The Position of the mouse
 	MouseButton - Which button was pressed
 	
 ## MouseUp
 This is called whenever a mouse button is unpressed.
 
-This adds the following global variables:
+This adds the following variables to Event:
 	MousePos    - The Position of the mouse
 	MouseButton - Which button was unpressed
