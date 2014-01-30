@@ -1,4 +1,5 @@
 ##
+print("HI")
 Game.CreateScreen(500,500)
 
 Box = Game.New(Sprite)

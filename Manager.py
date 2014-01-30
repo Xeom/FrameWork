@@ -10,16 +10,22 @@ import Objects
 print("Importing Run")
 import Run
 
+import os
+
 class Manager:
     TargetTPS = 60
     
-    def __init__(self):
+    def __init__(self, ObjectPath, GamePath):
+        cwd = os.getcwd()
+        
+        self.ObjectPath = cwd+ObjectPath
+        self.GamePath   = cwd+GamePath
+        
         self.Vars     = {"Game":   self, 
                          "pygame": pygame}
-                         
-        Objects.LoadScripts("/Objects/", self.Vars)
-        self.OrigVars = self.Vars.copy()
         
+        Objects.LoadScripts(self.ObjectPath, self.Vars)
+
         print("Initiating pygame")
         pygame.init()
         print("... done")
@@ -33,9 +39,7 @@ class Manager:
 
         self.Screen   = None
         
-        self.Vars = self.OrigVars.copy()
-        
-        self.Events = Run.LoadScripts("/Tests/", self.Vars)
+        self.Events = Run.LoadScripts(self.GamePath, self.Vars)
 
         while self.Running:
             self.Tick()
@@ -95,13 +99,15 @@ class Manager:
                                               MouseButtons  = event.buttons)
 
             elif event.type == pygame.KEYDOWN:
-                self.Events["KeyDown"].Exec(Unicode=event.unicode,
+                self.Events["KeyDown"].Exec(event.key,
+                                            Unicode=event.unicode,
                                             Mod=event.mod)
                 
-                self.Events["KeyPress"].Exec(Unicode=event.unicode)
+                self.Events["KeyPress"].Exec(Key=event.key,
+                                             Unicode=event.unicode)
                 
             elif event.type == pygame.KEYUP:
-                self.Events["KeyUp"].Exec(Key=event.key,
+                self.Events["KeyUp"].Exec(event.key,
                                           Mod=event.mod)
 
 
@@ -117,6 +123,24 @@ class Manager:
                 self.Events["Quit"].Exec()
                 self.Running = False
 
-Manager()
+Manager("/Objects/", "/Tests/")
 
+
+"""    
+QUIT             none
+ACTIVEEVENT      gain, state
+KEYDOWN          unicode, key, mod
+KEYUP            key, mod
+MOUSEMOTION      pos, rel, buttons
+MOUSEBUTTONUP    pos, button
+MOUSEBUTTONDOWN  pos, button
+JOYAXISMOTION    joy, axis, value
+JOYBALLMOTION    joy, ball, rel
+JOYHATMOTION     joy, hat, value
+JOYBUTTONUP      joy, button
+JOYBUTTONDOWN    joy, button
+VIDEORESIZE      size, w, h
+VIDEOEXPOSE      none
+USEREVENT        code
+"""
     

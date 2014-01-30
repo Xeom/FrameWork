@@ -2,7 +2,8 @@ This project is designed for the easy implementation of games
 in a simple environment.
 
 There are two subdirectories, from which scripts may be used.
-The first is /Objects/, where scripts to be called on runtime
+The first is /Objects/, though this path may be changed to load
+from any other location. Here, scripts to be called on runtime
 are added. These include a standard library of sorts, with
 commonly used objects, all scripts in this directory are called
 with a shared namespace, and thus, one globally defined object
@@ -73,7 +74,7 @@ Manager.Manager:
 		Used internally to handle all events etc.
 		
 The standard libary 'math' is also available by default in 
-globals, under the name Math, documentation for it can be found
+globals, under the name 'Math', documentation for it can be found
 here: 
 http://docs.python.org/3.2/library/math.html
 
