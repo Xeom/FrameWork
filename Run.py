@@ -12,13 +12,6 @@ class Event:
     def Exec(self):
         for compiled in self.Events:
             exec(compiled, self.API)
-
-class ArgsEvent(Event):
-    def Exec(self, **kwargs):
-        self.API.update(kwargs)
-        
-        for compiled in self.Events:
-            exec(compiled, self.API)
             
 
 
@@ -59,14 +52,14 @@ def LoadScripts(path, API):
     Events = {
         "Quit"      : Event(API),
         "Forever"   : Event(API),
+        "MouseMove" : Event(API),
+        "MouseDown" : Event(API),
+        "MouseUp"   : Event(API),
+        "KeyPress"  : Event(API),
+        "MouseDown" : Event(API),
+        "MouseUp"   : Event(API),
         "KeyDown"   : KeyEvent(API),
-        "KeyUp"     : KeyEvent(API),
-        "MouseMove" : ArgsEvent(API),
-        "MouseDown" : ArgsEvent(API),
-        "MouseUp"   : ArgsEvent(API),
-        "KeyPress"  : ArgsEvent(API),
-        "MouseDown" : ArgsEvent(API),
-        "MouseUp"   : ArgsEvent(API)}
+        "KeyUp"     : KeyEvent(API)}
         
     try:
         files = os.listdir(path)
