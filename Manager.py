@@ -24,7 +24,7 @@ class EventContainer:
 
 class Manager:
     def __init__(self, ObjectPath, GamePath, TPS):
-        self.TPS = TPS
+        self.TargetTPS = TPS
         
         cwd = os.getcwd()
         
@@ -114,23 +114,27 @@ class Manager:
                 self.Events["MouseMove"].Exec()
 
             elif event.type == pygame.KEYDOWN:
+                name = pygame.key.name(event.key)
+                
                 self.EventVars.Key     = event.key
                 self.EventVars.Unicode = event.unicode
                 self.EventVars.Mod     = event.mod
                 
-                if event.key not in self.EventVars.KeysDown:
-                    self.EventVars.KeysDown.append(pygame.key.get_name(event.key))
+                if name not in self.EventVars.KeysDown:
+                    self.EventVars.KeysDown.append(name)
                 
-                self.Events["KeyDown"].Exec(event.key)
+                self.Events["KeyDown"].Exec(name)
                 self.Events["KeyPress"].Exec()
                 
             elif event.type == pygame.KEYUP:
+                name = pygame.key.name(event.key)
+                
                 self.EventVars.Mod = event.mod
                 
-                if event.key in self.EventVars.KeysDown:
-                    self.EventVars.KeysDown.remove(pygame.key.get_name(event.key))
+                if name in self.EventVars.KeysDown:
+                    self.EventVars.KeysDown.remove(name)
                 
-                self.Events["KeyUp"].Exec(event.key)
+                self.Events["KeyUp"].Exec(name)
 
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -154,10 +158,6 @@ class Manager:
             elif event.type == pygame.QUIT:
                 self.Events["Quit"].Exec()
                 self.Running = False
-
-Manager("/Objects/", "/Tests/")
-
-
 """    
 QUIT             none
 ACTIVEEVENT      gain, state

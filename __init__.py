@@ -12,5 +12,5 @@ try:
 except Exception as E:
     print("Error encounted!")
     traceback.print_exc()
-    print(str(E))
+    print("This is not a good thing.")
     

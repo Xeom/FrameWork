@@ -1,5 +1,4 @@
 ##
-print("HI")
 Game.CreateScreen(500,500)
 
 Box = Game.New(Sprite)
@@ -22,15 +21,16 @@ Text.SetText(str(int(Game.GetFPS())))
 Text.UpdateImage()
 Game.Draw()
 Game.Update()
+if "w" in Event.KeysDown:
+    V += 0.01
+    print(Event.KeysDown)
 
-## KeyDown w
-V += 1
+if "a" in Event.KeysDown:
+    A += 0.01
 
-## KeyDown d
-A += 0.1
+if "s" in Event.KeysDown:
+    V -= 0.01
 
-## KeyDown a
-A -= 0.1
+if "d" in Event.KeysDown:
+    A -= 0.01
 
-## KeyDown s
-V -= 1

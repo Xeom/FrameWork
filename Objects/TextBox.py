@@ -9,7 +9,6 @@ class TextBox(SubSurface):
 
         else:
             self.FontName = pygame.font.get_default_font()
-        print(pygame.font.get_default_font())
 
         self.Text = ''
 

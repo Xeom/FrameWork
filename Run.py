@@ -32,11 +32,8 @@ class KeyEvent:
 
         self.Events[key].append(compile(code, path, "exec"))
 
-    def Exec(self, key, **kwargs):
-        self.API.update(kwargs)
-
-        name = pygame.key.name(key)
-        code = self.Events.get(name)
+    def Exec(self, key):
+        code = self.Events.get(key)
 
         if code:
             for compiled in code:
@@ -82,8 +79,6 @@ def LoadScripts(path, API):
         for script in sections:
             lineEnd = script.find("\n")
             head = script[:lineEnd].split()
-
-            print(script)
 
             if head:
                 event = Events.get(head[0])
