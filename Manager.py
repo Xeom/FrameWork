@@ -14,12 +14,12 @@ import os
 
 class EventContainer:
     def __init__(self):
-        self.MousePos = None
-        self.MouseRel = None
-        self.Unicode = None
-        self.Mod = None
-        self.Key = None
-        self.KeysDown = []
+        self.MousePos     = None
+        self.MouseRel     = None
+        self.Unicode      = None
+        self.Mod          = None
+        self.Key          = None
+        self.KeysDown     = []
         self.MouseButtons = []
 
 class Manager:
@@ -108,8 +108,8 @@ class Manager:
         
         for event in pygame.event.get():
             if    event.type == pygame.MOUSEMOTION:
-                self.EventVars.MouseRel      = event.rel
-                self.EventVars.MousePos      = event.pos
+                self.EventVars.MouseRel = event.rel
+                self.EventVars.MousePos = event.pos
                 
                 self.Events["MouseMove"].Exec()
 

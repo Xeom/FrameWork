@@ -13,4 +13,6 @@ except Exception as E:
     print("Error encounted!")
     traceback.print_exc()
     print("This is not a good thing.")
-    
+    Manager.pygame.quit()
+    input("Press enter to exit...")
+

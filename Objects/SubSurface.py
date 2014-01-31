@@ -2,7 +2,7 @@ class SubSurface(object):
     def __init__(self, parent):
         self.Parent    = parent
         self.X, self.Y = 0, 0
-        self.SetImage(pygame.Surface((10, 10)))
+        self.SetImage(pygame.Surface((10, 10), pygame.SRCALPHA))
         self.Image.fill((255, 0, 0))
 
     def GetPos(self):
@@ -14,9 +14,7 @@ class SubSurface(object):
 
         except:
             print(path+" is invalid image")
-            self.SetImage(pygame.Surface((10, 10)))
-            self.Image.fill((255, 0, 0))
-
+            
         else:
             self.SetImage(image.convert_alpha())
 
