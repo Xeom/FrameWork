@@ -23,6 +23,9 @@ class SubSurface(object):
         
         return self.X, self.Y
 
+    def GetRect(self):
+        return self.GetPos()+self.Image.get_size()
+
     def SetImagePath(self, path):
         """Load and use an image in a directory.
 
