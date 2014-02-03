@@ -8,6 +8,9 @@ class SubSurface(object):
     def GetPos(self):
         return self.X, self.Y
 
+    def GetRect(self):
+        return self.GetPos()+self.Image.get_size()
+
     def SetImagePath(self, path):
         try:
             image = pygame.image.load(path)
