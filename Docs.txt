@@ -35,9 +35,6 @@ added in any /Object/ script. It is an instance of the class
 used for controlling everything, it's methods are as follows:
 
 Manager.Manager:
-	Run():
-		Loads and runs all user scripts.
-		
 	Draw():
 		Draws every child surface initiated with New().
 		
