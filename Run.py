@@ -72,6 +72,7 @@ def LoadScripts(path, API):
 
     path is the directory from which to load.
     API is a reference to the dict of global vars."""
+    
     Events = {
         "Quit"      : Event(API),
         "Forever"   : Event(API),

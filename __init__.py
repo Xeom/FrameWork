@@ -2,7 +2,7 @@ import Manager
 import traceback
 
 LIBS = "/Objects/"
-TPS  = 0
+TPS  = 60
 
 GAME = input("Game directory:")
 

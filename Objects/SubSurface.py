@@ -2,7 +2,8 @@ class SubSurface(object):
     """A basic image to be rendered onto another,
     this may be the screen.
 
-    parent is the surface to render onto."""
+    parent is the surface to render onto.
+    cache=True is to speed up loading multiple image files."""
     
     def __init__(self, parent, cache=False):
         self.Parent    = parent
