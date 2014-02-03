@@ -17,3 +17,9 @@ def GetColour(colour):
             
     else:
         return colour
+
+def IsIn(pos, rect):
+    return pos[0] >= rect[0] and\
+           pos[1] >= rect[1] and\
+           pos[0] <= rect[0]+rect[2] and\
+           pos[1] <= rect[1]+rect[3]
