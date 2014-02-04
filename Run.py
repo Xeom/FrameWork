@@ -1,5 +1,15 @@
 import os
 import pygame
+import traceback
+
+def TryExec(code, API):
+    try:
+        exec(code, API)
+                
+    except Exception as E:
+        print("Error running script: ",str(E))
+        traceback.print_exc()
+            
 
 class Event:
     def __init__(self, API):
@@ -11,7 +21,7 @@ class Event:
         
     def Exec(self):
         for compiled in self.Events:
-            exec(compiled, self.API)
+            TryExec(compiled, self.API)
             
 
 
@@ -37,13 +47,14 @@ class KeyEvent:
 
         if code:
             for compiled in code:
-                exec(compiled, self.API)
+                TryExec(compiled, self.API)
+                
 
         code = self.Events.get("any")
 
         if code:
             for compiled in code:
-                exec(compiled, self.API)
+                TryExec(compiled, self.API)
 
 def LoadScripts(path, API):
     Events = {
