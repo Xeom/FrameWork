@@ -1,15 +1,26 @@
 class Sprite(SubSurface):
-    def __init__(self, *args):
-        SubSurface.__init__(self, *args)
+    """A kind of subsurface for moving etc.
+
+    takes the same args as SubSurface."""
+    
+    def __init__(self, **kwards):
+        SubSurface.__init__(self, **kwargs)
         self.Angle = 0
         self.ModX  = 0
         self.ModY  = 0
         self.UpdateMask()       
 
     def GetPos(self):
+        """Get the position of the top left corner
+        of this surface relative to its parent."""
+        
         return self.X+self.ModX, self.Y+self.ModY
 
     def SetImage(self, image):
+        """Sets the image of this surface.
+
+        image is a pygame.Surface object."""
+        
         self.Orig  = image
         self.Image = image.copy()
         self.Size  = image.get_size()
@@ -17,20 +28,39 @@ class Sprite(SubSurface):
         self.UpdateMask()
 
     def IsColliding(self, other):
+        """Checks if the surface is colliding with another.
+        Returns None if it is not colliding, the coordinates
+        of the first collision if it is.
+
+        other is another SubSurface object to check collision with."""
+        
         pos    = other.GetPos()
         ownpos = self. GetPos()
         offset = (int(pos[0]-ownpos[0]), int(pos[1]-ownpos[1]))
         return self.Mask.overlap(other.Mask, offset)
 
     def Move(self, x, y):
+        """Moves this Sprite.
+
+        x is how far to move it horistontally.
+        y is how far to move it vertically."""
+        
         self.X += x
         self.Y += y
 
     def Forward(self, distance):
+        """Moves this sprite forward in the direction it is facing.
+
+        distance is how far to move it."""
+        
         self.Move(distance*Math.sin(Math.radians(self.Angle)),
                   distance*Math.cos(Math.radians(self.Angle)))
 
     def Fill(self, colour):
+        """Fill this surfake with a solid colour.
+
+        colour is the colour to use."""
+        
         self.Orig.fill(GetColour(colour))
 
         if self.Angle:
@@ -39,6 +69,10 @@ class Sprite(SubSurface):
             self.Image = self.Orig.copy()
 
     def Turn(self, amount):
+        """Rotates the Sprite an amount.
+
+        amount is the angle to rotate it by."""
+        
         self.Angle -= amount
         self.Angle %= 360
 

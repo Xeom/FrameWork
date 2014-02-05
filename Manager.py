@@ -13,6 +13,10 @@ import Run
 import os
 
 class EventContainer:
+    """Contains all data for instances at runtime
+    a Manager controls these variables.
+    """
+
     def __init__(self):
         self.MousePos     = None
         self.MouseRel     = None
@@ -23,6 +27,12 @@ class EventContainer:
         self.MouseButtons = []
 
 class Manager:
+    """Interfaces with pygame, manages events,and calls scripts as needed.
+
+    ObjectPath is the path of the lib directory to load all files from.
+    GamePath is the path from which to load the user scripts.
+    TPS is the target number of ticks per second."""
+    
     def __init__(self, ObjectPath, GamePath, TPS):
         self.TargetTPS = TPS
         
@@ -61,25 +71,40 @@ class Manager:
         pygame.quit()
 
     def Draw(self):
+        """Draws every child surface initiated with New()."""
+    
         for Child in self.Children:
             Child.Blit()
 
     def Update(self):
+        """Updates the screen."""
+    
         self.FPS.tick()
         pygame.display.flip()
         self.ClearScreen()
 
     def GetFPS(self):
+        """Returns the number of times the screen is updated per second."""
+
         return self.FPS.get_fps()
 
     def GetTPS(self):
+        """Returns the number of ticks per second."""
+        
         return self.TPS.get_fps()
     
     def CreateScreen(self, X, Y):
+        """Initiates a new display window.
+
+        X is the width of the window to be created.
+        Y is the height of the window to be created."""
+        
         self.Screen = pygame.display.set_mode((X, Y))
         self.ClearScreen()
 
     def CheckScreen(self):
+        """Used internally to check that a screen exists."""
+        
         if not self.Screen:
             print("Please call 'CreateScreen(X, Y)' before '"+\
                   name+"' - Starting with (600, 600) screen")
@@ -87,6 +112,11 @@ class Manager:
             self.CreateScreen(600, 600)
 
     def New(self, cls, *args, **kwargs):
+        """Adds a new SubSurface to the screen.
+
+        cls is the class to create an instance of.
+        any extra args of keyword args are given to the class."""
+        
         self.CheckScreen()
         new = cls(self.Screen, *args, **kwargs)
         self.CheckScreen()
@@ -95,13 +125,21 @@ class Manager:
         return new
         
     def ClearScreen(self):
+        """Clears the screen. Never could have guessed."""
+        
         self.FillScreen(*self.Colour)
 
     def FillScreen(self, R, G, B):
+        """Fills the screen with a solid colour.
+
+        R is a number from 0 to 255 - the red of the colour to fill the screen with."""
+        
         self.CheckScreen()
         self.Screen.fill((R, G, B))
 
     def Tick(self):
+        """Handles all events, and runs all appropriate scripts."""
+        
         self.TPS.tick(self.TargetTPS)
         
         self.Events["Forever"].Exec()

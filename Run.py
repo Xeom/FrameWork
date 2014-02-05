@@ -12,14 +12,26 @@ def TryExec(code, API):
             
 
 class Event:
+    """Holds and calls scripts relating to a specific event.
+
+       API is a reference to the dict of global variables."""
+    
     def __init__(self, API):
         self.Events = []
         self.API = API
 
     def New(self, code, head, path):
+        """Adds a new piece of code.
+
+        code is the code in a string.
+        head is the flag preceding the code.
+        path is the path the code came from."""
+        
         self.Events.append(compile(code, path, "exec"))
         
     def Exec(self):
+        """Executes all code for this event"""
+        
         for compiled in self.Events:
             TryExec(compiled, self.API)
             
@@ -31,6 +43,12 @@ class KeyEvent:
         self.API = API
         
     def New(self, code, head, path):
+        """Adds a new piece of code.
+
+        code is the code in a string.
+        head is the flag preceding the code.
+        path is the path the code came from."""
+        
         if head:
             key = head[1].lower()
 
@@ -43,6 +61,10 @@ class KeyEvent:
         self.Events[key].append(compile(code, path, "exec"))
 
     def Exec(self, key):
+        """Executes all code for a key.
+
+        key is the key to use code from."""
+        
         code = self.Events.get(key)
 
         if code:
@@ -57,6 +79,11 @@ class KeyEvent:
                 TryExec(compiled, self.API)
 
 def LoadScripts(path, API):
+    """Loads all scripts from a directory.
+
+    path is the directory from which to load.
+    API is a reference to the dict of global vars."""
+    
     Events = {
         "Quit"      : Event(API),
         "Forever"   : Event(API),
