@@ -76,7 +76,12 @@ class TextBox(SubSurface):
 
         text is the text to display."""
         
-        self.Text = text
+        if isinstance(text, str):
+            self.Text = text
+            
+        else:
+            self.Text = str(text)
+
         self.UpdateImage()
         
     def Write(self, text):
@@ -84,7 +89,12 @@ class TextBox(SubSurface):
 
         text is the text to append."""
         
-        self.SetText(self.Text + text)
+        if isinstance(text, str):
+            self.Text += text
+            
+        else:
+            self.Text += str(text)
+            
         self.UpdateImage()
 
     def Delete(self, amount=1):
