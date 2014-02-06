@@ -93,13 +93,17 @@ class Manager:
         
         return self.TPS.get_fps()
     
-    def CreateScreen(self, X, Y):
+    def CreateScreen(self, x, y, resizable=False):
         """Initiates a new display window.
 
-        X is the width of the window to be created.
-        Y is the height of the window to be created."""
+        x is the width of the window to be created.
+        y is the height of the window to be created."""
         
-        self.Screen = pygame.display.set_mode((X, Y))
+        flags = 0
+        if resizable:
+            flags |= pygame.RESIZABLE
+        
+        self.Screen = pygame.display.set_mode((x, y))
         self.ClearScreen()
 
     def CheckScreen(self):
@@ -196,6 +200,12 @@ class Manager:
             elif event.type == pygame.QUIT:
                 self.Events["Quit"].Exec()
                 self.Running = False
+                
+    def GetSize(self):
+        """Get the size of the display surface"""
+        
+        return self.Screen.get_size()
+        
 """    
 QUIT             none
 ACTIVEEVENT      gain, state
