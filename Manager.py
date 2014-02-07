@@ -104,6 +104,8 @@ class Manager:
             flags |= pygame.RESIZABLE
         
         self.Screen = pygame.display.set_mode((x, y))
+        self.Canvas = pygame.Surface(self.Screen.get_size(), pygame.SRCALPHA)
+        
         self.ClearScreen()
 
     def CheckScreen(self):
@@ -123,7 +125,6 @@ class Manager:
         
         self.CheckScreen()
         new = cls(self.Screen, *args, **kwargs)
-        self.CheckScreen()
         self.Children.append(new)
 
         return new
@@ -131,15 +132,8 @@ class Manager:
     def ClearScreen(self):
         """Clears the screen. Never could have guessed."""
         
-        self.FillScreen(*self.Colour)
-
-    def FillScreen(self, R, G, B):
-        """Fills the screen with a solid colour.
-
-        R is a number from 0 to 255 - the red of the colour to fill the screen with."""
-        
-        self.CheckScreen()
-        self.Screen.fill((R, G, B))
+        self.Screen.fill(self.Colour)
+        self.Screen.blit(self.Canvas, (0, 0))
 
     def Tick(self):
         """Handles all events, and runs all appropriate scripts."""
