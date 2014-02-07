@@ -1,2 +1,4 @@
 __pycache*
 *.db
+*.py[cod]
+*.hide.*
