@@ -124,7 +124,12 @@ class Manager:
         any extra args of keyword args are given to the class."""
         
         self.CheckScreen()
-        new = cls(self.Screen, *args, **kwargs)
+        
+        if issubclass(cls, self.Vars["Pen"]):
+            new = cls(self.Canvas, *args, **kwargs)
+            
+        else:
+            new = cls(self.Screen, *args, **kwargs)
         self.Children.append(new)
 
         return new
