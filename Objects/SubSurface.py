@@ -24,6 +24,10 @@ class SubSurface(object):
         return self.X, self.Y
 
     def GetRect(self):
+        """Gets the rectangle that the image takes up.
+        
+        Returns in the format (X, Y, Width, Height)."""
+        
         return self.GetPos()+self.Image.get_size()
 
     def SetImagePath(self, path):
