@@ -1,4 +1,13 @@
+#Do not import the importing file
 !__init__.py
+
+#Import the libs and standard functions
 Imports.py
+
+#SubSurface types
 SubSurface.py
 Sprite.py
+TextBox.py
+
+#Pen types
+Pen.py
