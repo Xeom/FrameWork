@@ -32,12 +32,24 @@ class Sprite(SubSurface):
         Returns None if it is not colliding, the coordinates
         of the first collision if it is.
 
-        other is another SubSurface object to check collision with."""
+        other is another SubSurface object to check collision with, or a position"""
         
-        pos    = other.GetPos()
-        ownpos = self. GetPos()
-        offset = (int(pos[0]-ownpos[0]), int(pos[1]-ownpos[1]))
-        return self.Mask.overlap(other.Mask, offset)
+        if isinstance(other, SubSurface):
+            pos    = other.GetPos()
+            ownpos = self. GetPos()
+            offset = (int(pos[0]-ownpos[0]), int(pos[1]-ownpos[1]))
+            
+            return bool(self.Mask.overlap(other.Mask, offset))
+            
+        else:
+            if len(other)== 2:
+                rect = self.GetRect()
+                if IsIn(other, rect):
+                    return bool(self.Mask.get_at(other[0]-rect[0], other[1]-rect[1]))
+                
+            elif len(other) == 4:
+                pass
+            
 
     def Move(self, x, y):
         """Moves this Sprite.
