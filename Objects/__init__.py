@@ -20,7 +20,7 @@ def LoadScripts(path, variables):
         dependencies = ''
 
     for file in (path+p.strip() for p in dependencies\
-                 if not p.startswith("!")):
+                 if not p.startswith("#")):
         if file in fileList:
             fileList.remove(file)
         
