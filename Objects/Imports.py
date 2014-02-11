@@ -22,13 +22,21 @@ def GetColour(colour):
     else:
         return colour
 
-def IsIn(pos, rect):
-    """Reterns if a position is in a rect.
+def IsIn(pos, other):
+    """Reterns if a position is in a rect or SubSurface's rect.
     
     pos is the position to check.
-    rect is the rect to check if the pos is in."""
+    other is the rect or SubSurface to check if the pos is in."""
+    
+    if not isinstance(other, iter):
+        rect = other.GetRect()
+        
+    else:
+        rect = other
     
     return pos[0] >= rect[0] and\
            pos[1] >= rect[1] and\
            pos[0] <= rect[0]+rect[2] and\
            pos[1] <= rect[1]+rect[3]
+
+        
