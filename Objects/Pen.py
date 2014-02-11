@@ -27,23 +27,23 @@ class Pen(object):
         
     def Line(self, prePos):
         if self.Draw:
-            pygame.draw.line(self.parent, self.Colour, prePos, self.GetPos(), self.Width)
+            pygame.draw.line(self.Parent, self.Colour, prePos, self.GetPos(), self.Width)
         
     def Move(self, x, y):
-        prePos  = (self.X, self.y)
+        prePos  = (self.X, self.Y)
         
         self.X += x
         self.Y += y
         
-        self.Line(prePos())
+        self.Line(prePos)
         
-    def SetPos(self, x, y)
-        prePos  = (self.X, self.y)
+    def SetPos(self, x, y):
+        prePos  = (self.X, self.Y)
         
         self.X  = x
         self.Y  = y
         
-        self.Line(prePos())
+        self.Line(prePos)
         
     def SetColour(self, colour):
         self.Colour = GetColour(colour)

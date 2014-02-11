@@ -23,6 +23,10 @@ class SubSurface(object):
         
         return self.X, self.Y
 
+    def GetCenter(self):
+        rect = self.GetRect()
+        return rect[0]+rect[2]/2, rect[1]+rect[3]/2
+
     def GetRect(self):
         """Gets the rectangle that the image takes up.
         

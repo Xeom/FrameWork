@@ -3,8 +3,8 @@ class Sprite(SubSurface):
 
     takes the same args as SubSurface."""
     
-    def __init__(self, **kwards):
-        SubSurface.__init__(self, **kwargs)
+    def __init__(self, parent, **kwargs):
+        SubSurface.__init__(self, parent, **kwargs)
         self.Angle = 0
         self.ModX  = 0
         self.ModY  = 0

@@ -70,18 +70,18 @@ class Manager:
 
         pygame.quit()
 
-    def Draw(self):
-        """Draws every child surface initiated with New()."""
-    
+    def Update(self):
+        """Updates the screen."""
+        self.Screen.fill(self.Colour)
+
         for Child in self.Children:
             Child.Blit()
 
-    def Update(self):
-        """Updates the screen."""
-    
-        self.FPS.tick()
+        self.Screen.blit(self.Canvas, (0, 0))
+
         pygame.display.flip()
-        self.ClearScreen()
+
+        self.FPS.tick()
 
     def GetFPS(self):
         """Returns the number of times the screen is updated per second."""
@@ -117,7 +117,7 @@ class Manager:
 
             self.CreateScreen(600, 600)
 
-    def New(self, cls, *args, **kwargs):
+    def New(self, cls, **kwargs):
         """Adds a new SubSurface to the screen.
 
         cls is the class to create an instance of.
@@ -126,19 +126,20 @@ class Manager:
         self.CheckScreen()
         
         if issubclass(cls, self.Vars["Pen"]):
-            new = cls(self.Canvas, *args, **kwargs)
+            new = cls(self.Canvas, **kwargs)
             
         else:
-            new = cls(self.Screen, *args, **kwargs)
-        self.Children.append(new)
+            new = cls(self.Screen, **kwargs)
+            self.Children.append(new)
 
         return new
         
     def ClearScreen(self):
         """Clears the screen. Never could have guessed."""
-        
         self.Screen.fill(self.Colour)
-        self.Screen.blit(self.Canvas, (0, 0))
+
+    def ClearCanvas(self):
+        self.Canvas.fill((0, 0, 0, 0))
 
     def Tick(self):
         """Handles all events, and runs all appropriate scripts."""
@@ -199,7 +200,7 @@ class Manager:
             elif event.type == pygame.QUIT:
                 self.Events["Quit"].Exec()
                 self.Running = False
-                
+
     def GetSize(self):
         """Get the size of the display surface"""
         

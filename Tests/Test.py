@@ -3,40 +3,47 @@ Game.CreateScreen(500,500)
 
 Box = Game.New(Sprite)
 Box.Set(100, 10, 0xFF0000)
-Box2 = Game.New(SubSurface, cache=False)
+
+Box2 = Game.New(SubSurface)
 Box2.SetImagePath("Cat.jpg")
 Box2.SetPos(200,200)
 Text = Game.New(TextBox)
 Text.SetFontAndSize("verdana", 16)
 V = 0
 A = 0
-I = False
+Line = Game.New(Pen)
+
 ## Forever
-if I:
-    Box2.SetImagePath("Cat.jpg")
-else:
-    Box2.SetImagePath("Cat2.jpg")
+Line.Up()
+Line.SetPos(0, 0)
+Line.Down()
+Line.SetPos(*Box.GetCenter())
 
-I = not I
-
-Box.Forward(V)
-Box.Turn(A)
 if Box.IsColliding(Box2):
     V = -V
     A = -A
+
+Box.Forward(V)
+Box.Turn(A)
+
+
 Text.SetText(str(int(Game.GetFPS())))
-Text.UpdateImage()
-Game.Draw()
+
 Game.Update()
+Game.ClearCanvas()
+
+V *= 0.85
+A *= 0.85
+
 if "w" in Event.KeysDown:
-    V += 0.01
+    V += 0.1
 
 if "a" in Event.KeysDown:
-    A += 0.01
+    A += 0.1
 
 if "s" in Event.KeysDown:
-    V -= 0.01
+    V -= 0.1
 
 if "d" in Event.KeysDown:
-    A -= 0.01
+    A -= 0.1
 
