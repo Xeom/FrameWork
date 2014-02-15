@@ -5,10 +5,12 @@ import traceback
 def TryExec(code, API):
     try:
         exec(code, API)
+        return True
                 
     except Exception as E:
         print("Error running script: ",str(E))
         traceback.print_exc()
+        return False
             
 
 class Event:
@@ -33,7 +35,8 @@ class Event:
         """Executes all code for this event"""
         
         for compiled in self.Events:
-            TryExec(compiled, self.API)
+            if not TryExec(compiled, self.API):
+                self.Events.remove(compiled)
             
 
 

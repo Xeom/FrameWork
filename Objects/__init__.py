@@ -10,7 +10,7 @@ def Load(file, variables):
 
 def LoadScripts(path, variables):
 
-    fileList = [path+p for p in os.listdir(path) if p.endswith(".py")]
+    fileList = [p for p in os.listdir(path) if p.endswith(".py")]
 
     try:
         dependencies = open(path+"Dependencies.txt").readlines()
@@ -19,13 +19,17 @@ def LoadScripts(path, variables):
         print(path+"/Dependencies.txt not found."+str(e))
         dependencies = ''
 
-    for file in (path+p.strip() for p in dependencies\
-                 if not p.startswith("#")):
+    for file in (p.strip() for p in dependencies\
+                 if not p.startswith("#") and p.strip()):
+        
         if file in fileList:
             fileList.remove(file)
         
         if file[0] != '!':
-            Load(file, variables)
+            Load(path+file, variables)
+
+        else:
+            fileList.remove(file[1:])
 
     for file in fileList:
-        Load(file, variables)
+        Load(path+file, variables)

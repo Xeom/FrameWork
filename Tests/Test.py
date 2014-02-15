@@ -1,6 +1,7 @@
 ##
 Game.CreateScreen(500,500)
 
+
 Box = Game.New(Sprite)
 Box.Set(100, 10, 0xFF0000)
 
@@ -11,9 +12,23 @@ Text = Game.New(TextBox)
 Text.SetFontAndSize("verdana", 16)
 V = 0
 A = 0
+Over = False
 Line = Game.New(Pen)
 
+print("HI")
+
 ## Forever
+if Box.IsColliding(Event.MousePos):
+    if 1 in Event.MouseButtons:
+        Box.Fill(0xFFFF00)
+    else:
+        Box.Fill(0xFF7700)
+    Over = True
+
+else:
+    Box.Fill(0xFF0000)
+    Over = False
+
 Line.Up()
 Line.SetPos(0, 0)
 Line.Down()

@@ -28,7 +28,7 @@ def IsIn(pos, other):
     pos is the position to check.
     other is the rect or SubSurface to check if the pos is in."""
     
-    if not isinstance(other, iter):
+    if hasattr(other, 'GetRect'):
         rect = other.GetRect()
         
     else:
@@ -36,7 +36,7 @@ def IsIn(pos, other):
     
     return pos[0] >= rect[0] and\
            pos[1] >= rect[1] and\
-           pos[0] <= rect[0]+rect[2] and\
-           pos[1] <= rect[1]+rect[3]
+           pos[0] <  rect[0]+rect[2] and\
+           pos[1] <  rect[1]+rect[3]
 
         

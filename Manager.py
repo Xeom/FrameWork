@@ -15,14 +15,22 @@ import os
 class EventContainer:
     """Contains all data for instances at runtime
     a Manager controls these variables.
+
+    The variables controllec here are as follows:
+    MousePos - A two long iterable containing the coordinates of the mouse.
+    MouseRel - A two long iterable containing the movement of the mouse.
+    Unicode - The unicode of the last key typed
+    Mod - The modifiers used on the last key typed
+    
     """
 
     def __init__(self):
-        self.MousePos     = None
-        self.MouseRel     = None
-        self.Unicode      = None
-        self.Mod          = None
-        self.Key          = None
+        self.MousePos     = [0, 0]
+        self.MouseRel     = [0, 0]
+        self.Unicode      = ''
+        self.Mod          = ()
+        self.KeyDown      = ''
+        self.KeyUp        = ''
         self.KeysDown     = []
         self.MouseButtons = []
 
@@ -33,8 +41,8 @@ class Manager:
     GamePath is the path from which to load the user scripts.
     TPS is the target number of ticks per second."""
     
-    def __init__(self, ObjectPath, GamePath, TPS):
-        self.TargetTPS = TPS
+    def __init__(self, ObjectPath, GamePath):
+        self.TargetTPS = 60
         
         cwd = os.getcwd()
         
@@ -158,7 +166,7 @@ class Manager:
             elif event.type == pygame.KEYDOWN:
                 name = pygame.key.name(event.key)
                 
-                self.EventVars.Key     = event.key
+                self.EventVars.KeyDown = event.key
                 self.EventVars.Unicode = event.unicode
                 self.EventVars.Mod     = event.mod
                 
@@ -171,7 +179,8 @@ class Manager:
             elif event.type == pygame.KEYUP:
                 name = pygame.key.name(event.key)
                 
-                self.EventVars.Mod = event.mod
+                self.EventVars.Mod   = event.mod
+                self.EventVars.KeyUp = event.key
                 
                 if name in self.EventVars.KeysDown:
                     self.EventVars.KeysDown.remove(name)

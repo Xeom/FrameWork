@@ -29,6 +29,7 @@ class TextBox(SubSurface):
         """Sets the colour of the font.
 
         colour is the colour to use."""
+        
         self.Colour = GetColour(colour)
 
     def UpdateFont(self):
@@ -107,5 +108,6 @@ class TextBox(SubSurface):
 
     def UpdateImage(self):
         """Render new text to an image."""
+        
         self.Image = self.Font.render(self.Text, False, self.Colour)
         

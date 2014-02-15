@@ -5,7 +5,7 @@ class Sprite(SubSurface):
     
     def __init__(self, parent, **kwargs):
         SubSurface.__init__(self, parent, **kwargs)
-        self.Angle = 0
+        self.Angle = 0.0
         self.ModX  = 0
         self.ModY  = 0
         self.UpdateMask()       
@@ -33,7 +33,7 @@ class Sprite(SubSurface):
         of the first collision if it is.
 
         other is another SubSurface object to check collision with, or a position"""
-        
+     
         if isinstance(other, SubSurface):
             pos    = other.GetPos()
             ownpos = self. GetPos()
@@ -45,7 +45,8 @@ class Sprite(SubSurface):
             if len(other)== 2:
                 rect = self.GetRect()
                 if IsIn(other, rect):
-                    return bool(self.Mask.get_at(other[0]-rect[0], other[1]-rect[1]))
+                    return bool(self.Mask.get_at((int(other[0]-rect[0]),
+                                                  int(other[1]-rect[1]))))
                 
             elif len(other) == 4:
                 pass
@@ -76,7 +77,7 @@ class Sprite(SubSurface):
         self.Orig.fill(GetColour(colour))
 
         if self.Angle:
-            self.Turn()
+            self.Turn(0)
         else:
             self.Image = self.Orig.copy()
 
