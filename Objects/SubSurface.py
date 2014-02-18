@@ -8,8 +8,7 @@ class SubSurface(object):
     def __init__(self, parent, cache=False):
         self.Parent    = parent
         self.X, self.Y = 0, 0
-        self.SetImage(pygame.Surface((10, 10), pygame.SRCALPHA))
-        self.Image.fill((255, 0, 0))
+        self.SetImage(UnknownImage)
 
         if cache:
             self.Cache = {}
@@ -68,6 +67,31 @@ class SubSurface(object):
         """Renders this surface onto its parent."""
         
         self.Parent.blit(self.Image, self.GetPos())
+
+    def IsColliding(self, other):
+        """Checks if the surface is colliding with another.
+        Returns None if it is not colliding, the coordinates
+        of the first collision if it is.
+
+        other is another SubSurface object to check collision with, or a position"""
+     
+        if isinstance(other, SubSurface):
+            pos    = other.GetPos()
+            ownpos = self. GetPos()
+            offset = (int(pos[0]-ownpos[0]), int(pos[1]-ownpos[1]))
+            
+            return bool(self.Mask.overlap(other.Mask, offset))
+            
+        else:
+            if len(other)== 2:
+                rect = self.GetRect()
+                if IsIn(other, rect):
+                    return bool(self.Mask.get_at((int(other[0]-rect[0]),
+                                                  int(other[1]-rect[1]))))
+                
+            elif len(other) == 4:
+                pass
+
 
     def SetPos(self, x, y):
         """Set this surfaces location on its parent.

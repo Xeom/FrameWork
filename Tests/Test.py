@@ -1,12 +1,11 @@
 ##
 Game.CreateScreen(500,500)
 
-
 Box = Game.New(Sprite)
 Box.Set(100, 10, 0xFF0000)
 
 Box2 = Game.New(SubSurface)
-Box2.SetImagePath("Cat.jpg")
+Box2.SetImagePath("Cat.jpg.OHSHIT")
 Box2.SetPos(200,200)
 Text = Game.New(TextBox)
 Text.SetFontAndSize("verdana", 16)
@@ -18,6 +17,11 @@ Line = Game.New(Pen)
 print("HI")
 
 ## Forever
+if Text.IsColliding(Event.MousePos):
+    Text.SetColour(0xFF0000)
+
+else:
+    Text.SetColour(0x000000)
 if Box.IsColliding(Event.MousePos):
     if 1 in Event.MouseButtons:
         Box.Fill(0xFFFF00)
@@ -38,6 +42,7 @@ if Box.IsColliding(Box2):
     V = -V
     A = -A
 
+
 Box.Forward(V)
 Box.Turn(A)
 
@@ -47,8 +52,8 @@ Text.SetText(str(int(Game.GetFPS())))
 Game.Update()
 Game.ClearCanvas()
 
-V *= 0.85
-A *= 0.85
+V *= 0.99
+A *= 0.99
 
 if "w" in Event.KeysDown:
     V += 0.1

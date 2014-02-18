@@ -17,5 +17,4 @@ except Exception as E:
     traceback.print_exc()
     print("This is not a good thing.")
     Manager.pygame.quit()
-    Input("Press enter to exit...")
 

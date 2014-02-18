@@ -109,5 +109,5 @@ class TextBox(SubSurface):
     def UpdateImage(self):
         """Render new text to an image."""
         
-        self.Image = self.Font.render(self.Text, False, self.Colour)
+        self.SetImage(self.Font.render(self.Text, False, self.Colour))
         

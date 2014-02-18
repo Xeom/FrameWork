@@ -21,7 +21,10 @@ class EventContainer:
     MouseRel - A two long iterable containing the movement of the mouse.
     Unicode - The unicode of the last key typed
     Mod - The modifiers used on the last key typed
-    
+    KeyDown - The last key pressed down
+    KeyUp - The last key released
+    KeysDown - A list of all keys pressed
+    MouseButtons - A list of all mouse buttons pressed
     """
 
     def __init__(self):
@@ -55,12 +58,12 @@ class Manager:
                          "pygame": pygame,
                          "Event": self.EventVars}
                          
-        
-        Objects.LoadScripts(self.ObjectPath, self.Vars)
-
         print("Initiating pygame")
         pygame.init()
+        pygame.display.init()
         print("... done")
+
+        Objects.LoadScripts(self.ObjectPath, self.Vars)
 
         self.Running = True
         self.Colour = (0xFF, 0xFF, 0xFF)
@@ -179,7 +182,6 @@ class Manager:
             elif event.type == pygame.KEYUP:
                 name = pygame.key.name(event.key)
                 
-                self.EventVars.Mod   = event.mod
                 self.EventVars.KeyUp = event.key
                 
                 if name in self.EventVars.KeysDown:

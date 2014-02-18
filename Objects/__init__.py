@@ -33,3 +33,5 @@ def LoadScripts(path, variables):
 
     for file in fileList:
         Load(path+file, variables)
+
+    print variables["UnknownImage"]
