@@ -1,4 +1,5 @@
 ##
+print(help(Game))
 Game.CreateScreen(500,500)
 
 Box = Game.New(Sprite)
@@ -17,6 +18,7 @@ Line = Game.New(Pen)
 print("HI")
 
 ## Forever
+0/0
 if Text.IsColliding(Event.MousePos):
     Text.SetColour(0xFF0000)
 

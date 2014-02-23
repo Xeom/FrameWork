@@ -1,239 +1,92 @@
-This project is designed for the easy implementation of games 
-in a simple environment.
 
-There are two subdirectories, from which scripts may be used.
-The first is /Objects/, though this path may be changed to load
-from any other location. Here, scripts to be called on runtime
-are added. These include a standard library of sorts, with
-commonly used objects, all scripts in this directory are called
-with a shared namespace, and thus, one globally defined object
-in one script will be accessible to all scripts loaded after 
-it. The order in which these scripts are loaded is defined in
-/Objects/dependencies.txt, the order of filenames relative to
-/Objects/ in this file will be the order in which they load,
-all other scripts in /Objects/ not referenced in 
-/Objects/dependencies.txt will be loaded afterwards, in no
-particular order (maybe alphabetical, but it depends what order
-the OS gives them to me in). If you want a file not to load, 
-you need to explicitly put the file name in 
-/Objects/dependencies.txt prefixed with an '!'.
+This project is designed for educational use, specifically teaching basic programming.
 
-The global variables that all scripts in /Objects/ start with
-are as follows:
+It is designed to be an iteration on "scratch", which while excellent, is not suitable for more advanced users.
 
-Game:   Class instance of Manager.Manager, is the primary
-		class for loading, and running everything.
-		
-pygame: Pygame module
+When the application is started, the __init__.py file should be called, which prompts the user to enter a directory to run. This directory should contain a series of .py files, which will all be loaded. The user code need not handle events or such - they are given to it by the manager. Events to call are marked with ## flags in the code. All the code after one of these flags, until the next is called upon the event specified by the flag. These events are as follows:
 
-After running through all scripts in /Objects/, the new 
-namespace is used in running all user scripts, allowing for
-STD libs, mods, and whatever else.
+## Quit
+This code is called when the application is told to shut down.
 
-The Game object is present in the STD namespace, and is not
-added in any /Object/ script. It is an instance of the class
-used for controlling everything, it's methods are as follows:
-
-Manager.Manager:
-	Draw():
-		Draws every child surface initiated with New().
-		
-	Update():
-		Updates the screen.
-		
-	GetFPS():
-		Gets the rate at which the screen is updated, in hertz.
-		
-	GetTPS():
-		Gets the rate at which all handling happens, in hertz.
-		
-	CreateScreen(X, Y):
-		Creates a screen of dimensions X and Y.
-		
-	CheckScreen():
-		Used internally - checks a screen is initiated, and
-		creates one if not.
-		
-	New(cls, *args, **kwargs):
-		Creates a new instance of a subSurface style object,
-		which will blit onto the screen. Arguments past the
-		object's class are passed as they would be directly to
-		the class's __init__ method. The new instance is 
-		returned.
-		
-	ClearScreen():
-		Sets the screen to Manager.Colour (default white).
-		
-	FillScreen(R, G, B):
-		Fills the screen with any colour.
-		
-	Tick():
-		Used internally to handle all events etc.
-		
-The standard libary 'math' is also available by default in 
-globals, under the name 'Math', documentation for it can be found
-here: 
-http://docs.python.org/3.2/library/math.html
-
-Pygame documentation can also be found here:
-http://pygame.org/docs/
-
-Rand is a shortcut to:
-http://docs.python.org/3.2/library/random.html#random.randint
-
-There are a series of standard objects with common uses defined
-in /Objects/ for the ease of the user. They are:
-
-GetColour(Colour):
-	A function to convert from 0xRRGGBB, "RRGGBB" and "RRGGBBAA"
-	to (R, G, B) or (R, G, B, A). It also can take input in this
-	format.
-	
-SubSurface(parent):
-	A class for displaying things. The parent is the surface to
-	draw onto. The usual way of putting a SubSurface onto the 
-	screen is Game.New(SubSurface).
-	
-	GetPos():
-		Returns the X, Y position of the SubSurface.
-		
-	Image:
-		The pygame.Surface() instance used for this SubSurface.
-		
-	SetImage(Image):
-		Set the image for this SubSurface.
-		
-	Blit():
-		Draw this SubSurface onto its parent.
-		
-	SetPos(x, y):
-		Moves the SubSurface to the defined location.
-		
-	Set(x, y, colour):
-		Sets this SubSurface to be a blank image of dimensions.
-		x, and y, and colour colour.
-		
-	Fill(colour):
-		Fills this subsurface with a desired colour.
-		
-	UpdateMask():
-		Updates the collision mask of this surface, used 
-		internally.
-	
-Sprite:
-	This class inherits from SubSurface, meaning all methods from
-	SubSurface still work on it.
-	
-	IsColliding(self, other):
-		Returns None if Sprite is not colliding with other 
-		(SubSurface or Sprite), otherwise, returns first found
-		point of collision.
-		
-	Move(x, y):
-		Change the Sprites position by x and y
-		
-	Forward(distance):
-		Move the sprite in the direction it is facing for 
-		distance pixels
-		
-	Turn(amount):
-		Rotate the sprite by an amount.
-		
-TextBox:
-	This class inherits from SubSurface, meaning all methods from
-	SubSurface still work on it.
-	
-	SetColour(colour):
-		Set the colour of the text
-		
-	SetFontAndSize(font, size):
-		Set a new font and size for the text to display in.
-		
-	SetFont(font):
-		Set a new font for the text to display in.
-		
-	SetSize(size):
-		Set a new size for the text to display in.
-		
-	SetText(text):
-		Set what text is displayed by the TextBox
-		
-	Write(text):
-		Append text to the TextBox
-		
-	Delete(amount):
-		Delete text from the TextBox, if no amount is supplied,
-		it is assumed to be 1.
-		
-	UpdateImage():
-		Update Image, call before Blit.
-		
-The second location from which user code is run is defined by
-the user. Typically, code will come from a directory of 
-scripts, which all load on the same global vars.
-
-When to execute different parts of the scripts varies based on 
-a series of flags, prefixed with ##, commenting them out.
-
-The ## flags can be used for specific events, which are called
-by the Manager. Each event can have multiple scripts. The
-events are as follows:
-
-An Event class instance is in global namespace, allowing variables
-relating to an event to be stored. It also has the following
-variables:
-	KeysDown - A list of all keycodes currently down
-	MouseDown - A list of all mouse buttons currently down
-
-##
-This code is called once on startup.
-
-## KeyDown [Key]
-This event is called when the keycode corresponding to the 
-letter given on the qwerty keyboard is pressed.
-
-This adds the following variables to Event:
-	Unicode - How the key would appear if typed
-	Mod     - What shift, alt etc. keys were down when the
-	          key was pressed
-	
-
-## KeyUp [Key]
-This event is called when the keycode corresponding to the 
-letter given on the qwerty keyboard is released. The supplied
-key corresponds with the qwerty keyboard, and its position 
-is constant on all layouts.
-
-This adds the following variables to Event:
-	Mod - The modifier keys pressed
-
-## KeyPress
-This event is called on any keypress. 
-
-This adds the following variables to Event:
-	Key     - The keycode pressed
-	Unicode - What the keypress would type
-
-## Forever
-This is called every managfer tick
+## Forever 
+This code is called constantly.
 
 ## MouseMove
-This is called whenever the mouse moves.
+This code is called whenever the mouse moves within the window.
 
-This adds the following variables to Event:
-	MousePos     - The Position of the mouse
-	MouseRel     - The Movement of the mouse
-	
 ## MouseDown
-This is called whenever a mouse button is pressed down.
+This code is called when a mouse-button is pressed.
 
-This adds the following variables to Event:
-	MousePos    - The Position of the mouse
-	MouseButton - Which button was pressed
-	
 ## MouseUp
-This is called whenever a mouse button is unpressed.
+This code is called when a mouse-button is unpressed.
 
-This adds the following variables to Event:
-	MousePos    - The Position of the mouse
-	MouseButton - Which button was unpressed
+## KeyPress
+This code is called whenever any key is pressed.
+
+## KeyDown [KEY]
+This code is called whenever [KEY] is pressed.
+
+## KeyUp [KEY]
+This code is called whenever [KEY] is unpressed.
+
+Before many of these events, specific variables relating to them are often set by the manager. These are often essential in interpreting the events. The variables are stored in a class instance called "Event". The variables set are as follows:
+
+ |  MousePos - The position of the mouse
+ |  MouseRel - The relative movement of the mouse between this and the last MouseMove event.
+ |  Unicode - The unicode produced by the last keypress.
+ |  Mod - The modifier keys pressed during last keypress.
+ |  KeyDown - The last key pressed.
+ |  KeyUp - The last key released.
+ |  KeysDown - A list of all keys that are down.
+ |  MouseButtons - A list of all mousebuttons that are pressed.
+
+While all of these variables can be used anywhere, it is recommended that you use them in the corresponding events, as this is when they will be updated, and less load will be put on your application.
+
+The Manager, which controls what aspects of the users code are called, and keeps everything running itself, is accessible in the user's scope through the name "Game". Many of the methods it provides are essential.
+
+class Manager(ObjectPath, GamePath)
+ |  Interfaces with pygame, manages events,and calls scripts as needed.
+ |  
+ |  ObjectPath is the path of the lib directory to load all files from.
+ |  GamePath is the path from which to load the user scripts.
+ |  TPS is the target number of ticks per second.
+ |  
+ |  Methods defined here:
+ |  
+ |  CheckScreen()
+ |      Used internally to check that a screen exists.
+ |  
+ |  ClearCanvas()
+ |      Clears the canvas.  
+ |
+ |  ClearScreen()
+ |      Clears the screen.
+ |  
+ |  CreateScreen(x, y, resizable=False)
+ |      Initiates a new display window.
+ |      
+ |      x is the width of the window to be created.
+ |      y is the height of the window to be created.
+ |  
+ |  GetFPS()
+ |      Returns the number of times the screen is updated per second.
+ |  
+ |  GetSize()
+ |      Get the size of the display surface
+ |  
+ |  GetTPS()
+ |      Returns the number of ticks per second.
+ |  
+ |  New(cls, **kwargs)
+ |      Adds a new SubSurface to the screen.
+ |      
+ |      cls is the class to create an instance of.
+ |      any extra args of keyword args are given to the class.
+ |  
+ |  Tick()
+ |      Handles all events, and runs all appropriate scripts.
+ |  
+ |  Update()
+ |      Updates the screen.
+ 
+ 

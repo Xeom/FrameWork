@@ -11,6 +11,10 @@ pygame.display.set_icon(Icon)
 
 del Icon
 
+class CanvasObject(object):
+    """Used to mark an object that writes to the canvas"""
+    pass
+
 def Input(string):
     print(string)
     return sys.stdin.readline()

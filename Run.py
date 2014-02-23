@@ -72,15 +72,17 @@ class KeyEvent:
 
         if code:
             for compiled in code:
-                TryExec(compiled, self.API)
-                
+                if not TryExec(compiled, self.API):
+                    
 
         code = self.Events.get("any")
 
         if code:
             for compiled in code:
-                TryExec(compiled, self.API)
-
+                if not:
+                    if not TryExec(compiled, self.API):
+                        self.Events["any"].remove(compiled)
+                    
 def LoadScripts(path, API):
     """Loads all scripts from a directory.
 
@@ -94,8 +96,6 @@ def LoadScripts(path, API):
         "MouseDown" : Event(API),
         "MouseUp"   : Event(API),
         "KeyPress"  : Event(API),
-        "MouseDown" : Event(API),
-        "MouseUp"   : Event(API),
         "KeyDown"   : KeyEvent(API),
         "KeyUp"     : KeyEvent(API)}
         

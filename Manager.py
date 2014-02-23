@@ -136,7 +136,7 @@ class Manager:
         
         self.CheckScreen()
         
-        if issubclass(cls, self.Vars["Pen"]):
+        if issubclass(cls, self.Vars["CanvasObject"]):
             new = cls(self.Canvas, **kwargs)
             
         else:
@@ -150,6 +150,7 @@ class Manager:
         self.Screen.fill(self.Colour)
 
     def ClearCanvas(self):
+        """Clears the canvas."""
         self.Canvas.fill((0, 0, 0, 0))
 
     def Tick(self):

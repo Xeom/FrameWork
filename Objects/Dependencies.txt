@@ -9,5 +9,6 @@ SubSurface.py
 Sprite.py
 TextBox.py
 
-#Pen types
+#Canvas types
 Pen.py
+Stamp.py
