@@ -1,33 +1,32 @@
-
 This project is designed for educational use, specifically teaching basic programming.
 
 It is designed to be an iteration on "scratch", which while excellent, is not suitable for more advanced users.
 
 When the application is started, the __init__.py file should be called, which prompts the user to enter a directory to run. This directory should contain a series of .py files, which will all be loaded. The user code need not handle events or such - they are given to it by the manager. Events to call are marked with ## flags in the code. All the code after one of these flags, until the next is called upon the event specified by the flag. These events are as follows:
 
-## Quit
-This code is called when the application is told to shut down.
-
-## Forever 
-This code is called constantly.
-
-## MouseMove
-This code is called whenever the mouse moves within the window.
-
-## MouseDown
-This code is called when a mouse-button is pressed.
-
-## MouseUp
-This code is called when a mouse-button is unpressed.
-
-## KeyPress
-This code is called whenever any key is pressed.
-
-## KeyDown [KEY]
-This code is called whenever [KEY] is pressed.
-
-## KeyUp [KEY]
-This code is called whenever [KEY] is unpressed.
+ |  ## Quit
+ |      This code is called when the application is told to shut down.
+ |  
+ |  ## Forever 
+ |      This code is called constantly.
+ |  
+ |  ## MouseMove
+ |      This code is called whenever the mouse moves within the window.
+ |  
+ |  ## MouseDown
+ |      This code is called when a mouse-button is pressed.
+ |  
+ |  ## MouseUp
+ |      This code is called when a mouse-button is unpressed.
+ |  
+ |  ## KeyPress
+ |      This code is called whenever any key is pressed.
+ |  
+ |  ## KeyDown [KEY]
+ |      This code is called whenever [KEY] is pressed.
+ |  
+ |  ## KeyUp [KEY]
+ |      This code is called whenever [KEY] is unpressed.
 
 Before many of these events, specific variables relating to them are often set by the manager. These are often essential in interpreting the events. The variables are stored in a class instance called "Event". The variables set are as follows:
 
